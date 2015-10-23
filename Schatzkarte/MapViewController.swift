@@ -62,6 +62,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         alertController.addAction(cancelAction)
         
         let submitAction = UIAlertAction(title: "Submit", style: .Default) { (action) in
+            
             if let latitude = alertController.textFields![0].text, longitude = alertController.textFields![1].text{
                 let lat: Double = (latitude as NSString).doubleValue
                 let lon: Double = (longitude as NSString).doubleValue
@@ -73,12 +74,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         
         alertController.addTextFieldWithConfigurationHandler { (textField) in
             textField.placeholder = "Latitude"
-            textField.keyboardType = UIKeyboardType.Default
+            textField.keyboardType = UIKeyboardType.NumbersAndPunctuation
         }
         
         alertController.addTextFieldWithConfigurationHandler { (textField) in
             textField.placeholder = "Longitude"
-            textField.keyboardType = UIKeyboardType.Default
+            textField.keyboardType = UIKeyboardType.NumbersAndPunctuation
         }
         
         self.presentViewController(alertController, animated: true, completion: nil)
@@ -99,6 +100,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
             mapView.addAnnotation(annotation)
             
         } else {
+            
+            let alertController = UIAlertController(title: "Fehler", message: "Koordinaten sind nicht korrekt! Marker wurde nicht hinzugefügt.", preferredStyle: .Alert)
+            
+            let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in}
+            alertController.addAction(cancelAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
             
             debugPrint("Koordinaten sind nicht korrekt!")
         }
@@ -156,8 +164,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
  
     @IBAction func pressedDeleteMarkers(sender: AnyObject) {
         
-        coords.removeAll()
-        mapView.removeAnnotations(mapView.annotations)
-        saveXML()
+        let alertController = UIAlertController(title: "Alle Marker löschen?", message: "Möchtest du wirklich alle Marker löschen. Dies kann nicht rückgangig gemacht werden.", preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in}
+        alertController.addAction(cancelAction)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .Default) { (action) in
+            
+            self.coords.removeAll()
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            self.saveXML()
+        }
+        alertController.addAction(deleteAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 }
