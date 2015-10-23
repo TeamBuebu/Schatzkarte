@@ -7,16 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		011244571BDA59A4005FFBB1 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011244561BDA59A4005FFBB1 /* Position.swift */; };
 		1E99BFA41BC2A78E009B3B57 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E99BFA31BC2A78E009B3B57 /* AppDelegate.swift */; };
 		1E99BFA61BC2A78E009B3B57 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E99BFA51BC2A78E009B3B57 /* MapViewController.swift */; };
 		1E99BFA91BC2A78E009B3B57 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E99BFA71BC2A78E009B3B57 /* Main.storyboard */; };
 		1E99BFAB1BC2A78E009B3B57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E99BFAA1BC2A78E009B3B57 /* Assets.xcassets */; };
 		1E99BFAE1BC2A78E009B3B57 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E99BFAC1BC2A78E009B3B57 /* LaunchScreen.storyboard */; };
-		1EA4095F1BC3CB3600C76093 /* SolutionLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA4095E1BC3CB3600C76093 /* SolutionLogger.swift */; settings = {ASSET_TAGS = (); }; };
+		1EA4095F1BC3CB3600C76093 /* SolutionLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA4095E1BC3CB3600C76093 /* SolutionLogger.swift */; };
 		5124C09C8AC2F01CE4B94E3E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF20946BB37AB3FA148776DB /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		011244561BDA59A4005FFBB1 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		1E99BFA01BC2A78E009B3B57 /* Schatzkarte.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Schatzkarte.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E99BFA31BC2A78E009B3B57 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1E99BFA51BC2A78E009B3B57 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				1E99BFAF1BC2A78E009B3B57 /* Info.plist */,
 				1EA4095E1BC3CB3600C76093 /* SolutionLogger.swift */,
 				1EDC93D31BC2B8700000DD04 /* BridgingHeader.h */,
+				011244561BDA59A4005FFBB1 /* Position.swift */,
 			);
 			path = Schatzkarte;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 			files = (
 				1E99BFA61BC2A78E009B3B57 /* MapViewController.swift in Sources */,
 				1EA4095F1BC3CB3600C76093 /* SolutionLogger.swift in Sources */,
+				011244571BDA59A4005FFBB1 /* Position.swift in Sources */,
 				1E99BFA41BC2A78E009B3B57 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

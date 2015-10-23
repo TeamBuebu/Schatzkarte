@@ -7,13 +7,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
     let kAccessToken = "sk.eyJ1IjoidG9uaXN1dGVyIiwiYSI6ImNpZmptbnhxYTAxMGR0ZWx4ZjFhejdkMzEifQ.4HxuC8B4MW_slik23J9NqQ"
     let kMapID = "tonisuter.cife1ku4000gmtaknuv49tvwc"
     let kHsrCoordinate = CLLocationCoordinate2DMake(47.223252, 8.817011)
+    let kSavedMarkersKey = "SavedMarkers"
+    let kDefaultZoomLevel: Float = 17.0
     
     let locationManager = CLLocationManager()
     var mapView: RMMapView!
     let defaults = NSUserDefaults.standardUserDefaults()
     
-    var listCoordination = [Double]()
-    
+    var coords = [Position]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,22 +31,25 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
 
         let tileSource: RMMapboxSource = RMMapboxSource(mapID: kMapID)
         mapView = RMMapView(frame: view.bounds, andTilesource: tileSource)
-        mapView.zoom = 17
+        mapView.zoom = kDefaultZoomLevel
         mapView.userTrackingMode = RMUserTrackingModeFollow
         mapView.delegate = self
         mapView.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
         self.view.addSubview(mapView)
         
         setSavedMarkers()
-        
     }
     
     func setSavedMarkers(){
         
-        listCoordination = defaults.objectForKey("SavedMarkers") as? [Double] ?? [Double]()
+        if let unarchivedObject = defaults.objectForKey(kSavedMarkersKey) as? NSData {
+            coords = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [Position])!
+        } else {
+            coords = [Position]()
+        }
         
-        for var index = 0; index < listCoordination.count; ++index {
-            setMarker(listCoordination[index], longitude: listCoordination[++index], load: false)
+        for var i = 0; i < coords.count; ++i {
+            setMarker(coords[i], save: false)
         }
     }
     
@@ -59,9 +63,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         
         let submitAction = UIAlertAction(title: "Submit", style: .Default) { (action) in
             if let latitude = alertController.textFields![0].text, longitude = alertController.textFields![1].text{
-                let Latitude: Double = (latitude as NSString).doubleValue
-                let Longitude: Double = (longitude as NSString).doubleValue
-                self.setMarker(Latitude, longitude: Longitude, load: true)
+                let lat: Double = (latitude as NSString).doubleValue
+                let lon: Double = (longitude as NSString).doubleValue
+                let pos = Position(lon: lon, lat: lat)
+                self.setMarker(pos, save: true)
             }
         }
         alertController.addAction(submitAction)
@@ -77,61 +82,58 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         }
         
         self.presentViewController(alertController, animated: true, completion: nil)
-
-    
     }
     
-    func setMarker(latitude: Double, longitude: Double, load: Bool){
+    func setMarker(pos: Position, save: Bool){
         
-        let cordination = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let cordination = CLLocationCoordinate2D(latitude: pos.lat, longitude: pos.lon)
         
         if CLLocationCoordinate2DIsValid(cordination){
         
-            if load{
-                listCoordination.append(latitude)
-                listCoordination.append(longitude)
-                
+            if save {
+                coords.append(pos)
                 saveXML()
             }
             
             let annotation: RMPointAnnotation = RMPointAnnotation(mapView: mapView, coordinate: cordination, andTitle: "Posten")
             mapView.addAnnotation(annotation)
-        }else{
+            
+        } else {
+            
             debugPrint("Koordinaten sind nicht korrekt!")
         }
-        
     }
     
     func saveXML(){
         
-        defaults.setObject(listCoordination, forKey: "SavedMarkers")
+        let archivedCoords = NSKeyedArchiver.archivedDataWithRootObject(coords as NSArray)
+        defaults.setObject(archivedCoords, forKey: kSavedMarkersKey)
         defaults.synchronize()
     }
 
     @IBAction func pressedLogSolution(sender: AnyObject) {
         
-        var json = [String: AnyObject]()
+        var json = [String : AnyObject]()
+        
         json["task"] = "Schatzkarte"
         let solutionLogger = SolutionLogger(viewController: self)
+        
         json["points"] = getJsonArray()
         let solutionStr = solutionLogger.JSONStringify(json)
+        
         solutionLogger.logSolution(solutionStr)
     }
     
-    func getJsonArray() -> NSArray{
+    func getJsonArray() -> NSArray {
         
-        var JsonArray = [AnyObject]()
-        for  var index = 0; index < listCoordination.count; ++index{
-            let JsonDict = ["lat": getJsonCoordinate(listCoordination[index]), "lon": getJsonCoordinate(listCoordination[++index])]
-            JsonArray.append(JsonDict)
+        var jsonArray = [[String : Int]]()
+        
+        for var i = 0; i < coords.count; ++i {
+            let jsonPos = ["lat": coords[i].getJsonLat(), "lon": coords[i].getJsonLon()]
+            jsonArray.append(jsonPos)
         }
         
-        return JsonArray
-    }
-    
-    func getJsonCoordinate(value: Double) ->Int{
-        
-        return Int(value * pow(10, 6))
+        return jsonArray
     }
     
     @IBAction func pressedLocation(sender: AnyObject) {
@@ -141,22 +143,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         let coordination = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
         
         mapView.centerCoordinate = coordination;
-        mapView.zoom = 17
+        mapView.zoom = kDefaultZoomLevel
         
         self.locationManager.stopUpdatingLocation()
     }
     
     @IBAction func pressedHSRLocation(sender: AnyObject) {
         
+        mapView.zoom = kDefaultZoomLevel
         mapView.centerCoordinate = kHsrCoordinate;
-        mapView.zoom = 17
     }
  
     @IBAction func pressedDeleteMarkers(sender: AnyObject) {
         
-        listCoordination.removeAll()
+        coords.removeAll()
         mapView.removeAnnotations(mapView.annotations)
         saveXML()
-        
     }
 }
