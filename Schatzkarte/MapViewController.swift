@@ -142,8 +142,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         
         let coordination = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
         
-        mapView.centerCoordinate = coordination;
         mapView.zoom = kDefaultZoomLevel
+        mapView.centerCoordinate = coordination;
         
         self.locationManager.stopUpdatingLocation()
     }
