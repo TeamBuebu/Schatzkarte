@@ -99,5 +99,101 @@
             landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Schatzkarte/MapViewController.swift"
+            timestampString = "467408354.944581"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "locationManager(_:didUpdateLocations:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Schatzkarte/MapViewController.swift"
+            timestampString = "467410973.615845"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
+            landmarkName = "mapView(_:didSelectAnnotation:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Schatzkarte/MapViewController.swift"
+            timestampString = "467410973.615845"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
+            landmarkName = "mapView(_:didSelectAnnotation:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Schatzkarte.MapViewController.mapView (Schatzkarte.MapViewController)(Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.RMMapView&gt;, didSelectAnnotation : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.RMAnnotation&gt;) -&gt; ()"
+                  moduleName = "Schatzkarte"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raphaelbuehlmann/Desktop/Schatzkarte/Schatzkarte/MapViewController.swift"
+                  timestampString = "467410036.015907"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "218"
+                  endingLineNumber = "218"
+                  offsetFromSymbolStart = "588">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Schatzkarte.MapViewController.(mapView (Schatzkarte.MapViewController) -&gt; (Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.RMMapView&gt;, didSelectAnnotation : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.RMAnnotation&gt;) -&gt; ()).(closure #2)"
+                  moduleName = "Schatzkarte"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raphaelbuehlmann/Desktop/Schatzkarte/Schatzkarte/MapViewController.swift"
+                  timestampString = "467410036.017046"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "218"
+                  endingLineNumber = "218"
+                  offsetFromSymbolStart = "968">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Schatzkarte/MapViewController.swift"
+            timestampString = "467410973.615845"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
+            landmarkName = "mapView(_:didSelectAnnotation:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

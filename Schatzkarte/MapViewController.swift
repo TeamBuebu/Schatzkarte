@@ -196,4 +196,33 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         
         self.presentViewController(alertController, animated: true, completion: nil)
     }
+    
+    func mapView(mapView: RMMapView!, didSelectAnnotation annotation: RMAnnotation!) {
+        
+        let alertController = UIAlertController(title: "Marker löschen?", message: "Möchtest du wirklich diesen Marker löschen. Dies kann nicht rückgangig gemacht werden.", preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in}
+        alertController.addAction(cancelAction)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .Default) { (action) in
+            
+            
+            let lon = annotation.coordinate.longitude
+            let lat = annotation.coordinate.latitude
+            
+            if let indexof = self.coords.indexOf(Position(lon: lon, lat: lat)){
+                self.coords.removeAtIndex(indexof)
+            }
+            
+            self.mapView.removeAnnotation(annotation)
+            
+        }
+        alertController.addAction(deleteAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+        
+        
+    }
 }
+
+
