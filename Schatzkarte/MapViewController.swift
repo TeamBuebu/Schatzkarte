@@ -147,13 +147,30 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
     @IBAction func pressedLocation(sender: AnyObject) {
         
         self.locationManager.startUpdatingLocation()
-        
-        let coordination = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-        
-        mapView.zoom = kDefaultZoomLevel
-        mapView.centerCoordinate = coordination;
-        
-        self.locationManager.stopUpdatingLocation()
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        CLGeocoder().reverseGeocodeLocation(manager.location!, completionHandler:{ (placemarkers, error) -> Void in
+            
+            if error != nil
+            {
+                debugPrint("Error")
+                return
+            }
+            
+            if placemarkers!.count > 0
+            {
+                let lat = placemarkers![0].location?.coordinate.latitude
+                let lon = placemarkers![0].location?.coordinate.longitude
+                let coordination = CLLocationCoordinate2D(latitude: lat!, longitude: lon!)
+                self.mapView.zoom = self.kDefaultZoomLevel
+                self.mapView.centerCoordinate = coordination;
+                
+                self.locationManager.stopUpdatingLocation()
+            }
+            
+            
+        })
     }
     
     @IBAction func pressedHSRLocation(sender: AnyObject) {
