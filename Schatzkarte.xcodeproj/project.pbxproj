@@ -129,7 +129,7 @@
 				TargetAttributes = {
 					1E99BF9F1BC2A78E009B3B57 = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = 3R887CJ624;
+						DevelopmentTeam = RKZ5UZHEBV;
 					};
 				};
 			};
@@ -323,7 +323,7 @@
 				INFOPLIST_FILE = Schatzkarte/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.bue-bu.Schatzkarte";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.bue-bu.Schatzkartev2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Schatzkarte/BridgingHeader.h;
@@ -341,7 +341,7 @@
 				INFOPLIST_FILE = Schatzkarte/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.bue-bu.Schatzkarte";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.bue-bu.Schatzkartev2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Schatzkarte/BridgingHeader.h;

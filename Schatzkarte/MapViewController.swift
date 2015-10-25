@@ -107,8 +107,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
             alertController.addAction(cancelAction)
             
             self.presentViewController(alertController, animated: true, completion: nil)
-            
-            debugPrint("Koordinaten sind nicht korrekt!")
         }
     }
     
@@ -122,13 +120,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
     @IBAction func pressedLogSolution(sender: AnyObject) {
         
         var json = [String : AnyObject]()
-        
         json["task"] = "Schatzkarte"
         let solutionLogger = SolutionLogger(viewController: self)
-        
         json["points"] = getJsonArray()
         let solutionStr = solutionLogger.JSONStringify(json)
-        
         solutionLogger.logSolution(solutionStr)
     }
     
@@ -147,13 +142,30 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
     @IBAction func pressedLocation(sender: AnyObject) {
         
         self.locationManager.startUpdatingLocation()
-        
-        let coordination = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-        
-        mapView.zoom = kDefaultZoomLevel
-        mapView.centerCoordinate = coordination;
-        
-        self.locationManager.stopUpdatingLocation()
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        CLGeocoder().reverseGeocodeLocation(manager.location!, completionHandler:{ (placemarkers, error) -> Void in
+            
+            if error != nil
+            {
+                debugPrint("Error")
+                return
+            }
+            
+            if placemarkers!.count > 0
+            {
+                let lat = placemarkers![0].location?.coordinate.latitude
+                let lon = placemarkers![0].location?.coordinate.longitude
+                let coordination = CLLocationCoordinate2D(latitude: lat!, longitude: lon!)
+                self.mapView.zoom = self.kDefaultZoomLevel
+                self.mapView.centerCoordinate = coordination;
+                
+                self.locationManager.stopUpdatingLocation()
+            }
+            
+            
+        })
     }
     
     @IBAction func pressedHSRLocation(sender: AnyObject) {
@@ -179,4 +191,36 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         
         self.presentViewController(alertController, animated: true, completion: nil)
     }
+    
+    func mapView(mapView: RMMapView!, didSelectAnnotation annotation: RMAnnotation!) {
+        
+        let alertController = UIAlertController(title: "Marker löschen?", message: "Möchtest du wirklich diesen Marker löschen. Dies kann nicht rückgangig gemacht werden.", preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in}
+        alertController.addAction(cancelAction)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .Default) { (action) in
+            
+            let lon = annotation.coordinate.longitude
+            let lat = annotation.coordinate.latitude
+            
+            for ( var i = 0; i < self.coords.count; i++){
+            
+                if(self.coords[i].lon == lon && self.coords[i].lat == lat){
+                
+                    self.coords.removeAtIndex(i)
+                    self.saveXML()
+                }
+            }
+            
+            self.mapView.removeAnnotation(annotation)
+            
+        }
+        alertController.addAction(deleteAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+
+    }
 }
+
+
