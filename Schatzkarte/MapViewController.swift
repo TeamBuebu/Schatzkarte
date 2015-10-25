@@ -107,8 +107,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
             alertController.addAction(cancelAction)
             
             self.presentViewController(alertController, animated: true, completion: nil)
-            
-            debugPrint("Koordinaten sind nicht korrekt!")
         }
     }
     
@@ -122,13 +120,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
     @IBAction func pressedLogSolution(sender: AnyObject) {
         
         var json = [String : AnyObject]()
-        
         json["task"] = "Schatzkarte"
         let solutionLogger = SolutionLogger(viewController: self)
-        
         json["points"] = getJsonArray()
         let solutionStr = solutionLogger.JSONStringify(json)
-        
         solutionLogger.logSolution(solutionStr)
     }
     
@@ -206,12 +201,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         
         let deleteAction = UIAlertAction(title: "Delete", style: .Default) { (action) in
             
-            
             let lon = annotation.coordinate.longitude
             let lat = annotation.coordinate.latitude
             
-            if let indexof = self.coords.indexOf(Position(lon: lon, lat: lat)){
-                self.coords.removeAtIndex(indexof)
+            for ( var i = 0; i < self.coords.count; i++){
+            
+                if(self.coords[i].lon == lon && self.coords[i].lat == lat){
+                
+                    self.coords.removeAtIndex(i)
+                    self.saveXML()
+                }
             }
             
             self.mapView.removeAnnotation(annotation)
@@ -220,8 +219,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         alertController.addAction(deleteAction)
         
         self.presentViewController(alertController, animated: true, completion: nil)
-        
-        
+
     }
 }
 
