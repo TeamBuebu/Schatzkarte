@@ -2,7 +2,7 @@ import UIKit
 import CoreLocation
 
 
-class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewDelegate {
+class MapViewController: UIViewController, RMMapViewDelegate {
     
     let kAccessToken = "sk.eyJ1IjoidG9uaXN1dGVyIiwiYSI6ImNpZmptbnhxYTAxMGR0ZWx4ZjFhejdkMzEifQ.4HxuC8B4MW_slik23J9NqQ"
     let kMapID = "tonisuter.cife1ku4000gmtaknuv49tvwc"
@@ -10,21 +10,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
     let kSavedMarkersKey = "SavedMarkers"
     let kDefaultZoomLevel: Float = 17.0
     
-    let locationManager = CLLocationManager()
     var mapView: RMMapView!
     let defaults = NSUserDefaults.standardUserDefaults()
     
     var coords = [Position]()
+    var currentLocation = CLLocationCoordinate2D()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         RMConfiguration.sharedInstance().accessToken = kAccessToken
         
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.requestWhenInUseAuthorization()
     }
+    
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -71,6 +69,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
             }
         }
         alertController.addAction(submitAction)
+        
+        
+        let locationAction = UIAlertAction(title: "Current Location", style: .Default) { (action) in
+        
+            let pos = Position(lon: self.currentLocation.longitude, lat: self.currentLocation.latitude)
+            self.setMarker(pos, save: true)
+        }
+        alertController.addAction(locationAction)
+        
         
         alertController.addTextFieldWithConfigurationHandler { (textField) in
             textField.placeholder = "Latitude"
@@ -141,31 +148,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
     
     @IBAction func pressedLocation(sender: AnyObject) {
         
-        self.locationManager.startUpdatingLocation()
+        self.mapView.zoom = self.kDefaultZoomLevel
+        self.mapView.centerCoordinate = self.currentLocation;
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        CLGeocoder().reverseGeocodeLocation(manager.location!, completionHandler:{ (placemarkers, error) -> Void in
-            
-            if error != nil
-            {
-                debugPrint("Error")
-                return
-            }
-            
-            if placemarkers!.count > 0
-            {
-                let lat = placemarkers![0].location?.coordinate.latitude
-                let lon = placemarkers![0].location?.coordinate.longitude
-                let coordination = CLLocationCoordinate2D(latitude: lat!, longitude: lon!)
-                self.mapView.zoom = self.kDefaultZoomLevel
-                self.mapView.centerCoordinate = coordination;
-                
-                self.locationManager.stopUpdatingLocation()
-            }
-            
-            
-        })
+    func mapView(mapView: RMMapView!, didUpdateUserLocation userLocation: RMUserLocation!) {
+        
+        let lat = userLocation.coordinate.latitude
+        let lon = userLocation.coordinate.longitude
+        
+        currentLocation = CLLocationCoordinate2DMake(lat, lon)
     }
     
     @IBAction func pressedHSRLocation(sender: AnyObject) {
